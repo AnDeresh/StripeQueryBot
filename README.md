@@ -12,11 +12,13 @@ StripeQueryBot/
 │   ├── docs.pkl                     # Pickled dictionary of chunked texts and metadata
 │   └── index.faiss                  # FAISS index storing vector embeddings for fast retrieval
 ├── .gitattributes                   # Git-specific attributes (e.g., Git LFS tracking)
+│
 ├── 01_collect_links_async.py        # Step 1. Asynchronously collect URLs from the Stripe docs homepage
 ├── 02_scrape_stripe_pages.py        # Step 2. Scrape each URL to retrieve full documentation text
 ├── 03_chunk_and_embed.py            # Step 3. Split text into chunks and embed them for FAISS indexing
-├── 04_rag_qa.py                     # (Optional) Gradio-based Q&A interface using local embeddings
-├── 05_rag_api.py                    # (Optional) FastAPI-based endpoint providing a Q&A API
+├── 04_rag_qa.py                     # Step 4. Gradio-based Q&A interface using local embeddings
+├── 05_rag_api.py                    # Step 5. FastAPI-based endpoint providing a Q&A API
+│
 ├── Dockerfile                       # Instructions for containerizing the app with Docker
 ├── README.md                        # Main project documentation, setup and usage instructions
 ├── requirements.txt                 # Python dependencies required by the project
