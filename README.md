@@ -66,10 +66,10 @@ If you want to containerize the application along with the LLaMA server, follow 
    ```bash
    docker build -f Dockerfile.app -t llm_stripe_rag .
    docker run \
-  --network stripe_network \
-  -v $(pwd)/vectorstore:/app/vectorstore \
-  -p 8000:8000 \
-  llm_stripe_rag
+   --network stripe_network \
+   -v $(pwd)/vectorstore:/app/vectorstore \
+   -p 8000:8000 \
+   llm_stripe_rag
    ```
 This will run the FastAPI application on port 8000.
 
