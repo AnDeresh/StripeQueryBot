@@ -33,6 +33,7 @@ StripeQueryBot/
 - Installed [Ollama](https://ollama.com/)
 - Download the LLaMA model using `ollama pull llama3`
 - Docker (optional for containerized deployment)
+- If you cloned the repo, make sure to run `git lfs pull` to fetch large files (like `index.faiss` and `docs.pkl`)
 
 ### 2. **Install Dependencies**
 Install the necessary Python libraries with the following command:
@@ -64,7 +65,11 @@ If you want to containerize the application along with the LLaMA server, follow 
 2. **Build and run the FastAPI container:**
    ```bash
    docker build -f Dockerfile.app -t llm_stripe_rag .
-   docker run --network stripe_network -p 8000:8000 llm_stripe_rag
+   docker run \
+  --network stripe_network \
+  -v $(pwd)/vectorstore:/app/vectorstore \
+  -p 8000:8000 \
+  llm_stripe_rag
    ```
 This will run the FastAPI application on port 8000.
 
