@@ -1,12 +1,16 @@
+import os
 import faiss
 import pickle
 import requests
 
 from sentence_transformers import SentenceTransformer
 
+# Define the base directory (project root), assuming this script is in the "scripts" folder.
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
 # === CONFIG ===
-INDEX_PATH = "vectorstore/index.faiss"
-DOCS_PATH = "vectorstore/docs.pkl"
+INDEX_PATH = os.path.join(BASE_DIR, "vectorstore", "index.faiss")
+DOCS_PATH = os.path.join(BASE_DIR, "vectorstore", "docs.pkl")
 EMBED_MODEL_NAME = "all-MiniLM-L6-v2"
 TOP_K = 5
 OLLAMA_URL = "http://localhost:11434/api/generate"
@@ -72,19 +76,3 @@ if __name__ == "__main__":
             ask_rag(user_input)
         except KeyboardInterrupt:
             break
-
-        
-# === EXAMPLE INTERACTIONS ===
-# Example 1:
-# Question: Як створити платіж через Stripe API?
-# Answer:
-# To make a payment through Stripe, you can use the `charges.create` endpoint in the Stripe API. This endpoint allows you to create a new charge on a customer's credit card.
-# Example:
-# curl https://api.stripe.com/v1/charges \
-# -u "sk_test_..." \
-# -d "amount=1000&currency=usd&customer=cus_12345678"
-
-# Example 2:
-# Question: Що таке customer у Stripe?
-# Answer:
-# A customer in Stripe represents an entity (user or organization) that you can charge, store payment methods for, and track billing history. You create a customer object via the Customers API and can attach payment sources, email, metadata, etc.

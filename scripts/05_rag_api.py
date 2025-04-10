@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import faiss
@@ -5,20 +6,25 @@ import pickle
 import requests
 from sentence_transformers import SentenceTransformer
 
+# Define the base directory (project root), assuming this script is in the "scripts" folder.
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
 # === CONFIG ===
-INDEX_PATH = "vectorstore/index.faiss"
-DOCS_PATH = "vectorstore/docs.pkl"
+INDEX_PATH = os.path.join(BASE_DIR, "vectorstore", "index.faiss")
+DOCS_PATH = os.path.join(BASE_DIR, "vectorstore", "docs.pkl")
 EMBED_MODEL_NAME = "all-MiniLM-L6-v2"
 TOP_K = 5
 OLLAMA_URL = "http://localhost:11434/api/generate"
 OLLAMA_MODEL = "llama3"
 
 # === LOAD COMPONENTS ===
+print("[1] Loading index and metadata...")
 index = faiss.read_index(INDEX_PATH)
 with open(DOCS_PATH, "rb") as f:
     data = pickle.load(f)
 texts = data["texts"]
 
+print("[2] Loading embedding model...")
 embedder = SentenceTransformer(EMBED_MODEL_NAME)
 
 # === FASTAPI SETUP ===
@@ -50,6 +56,7 @@ Question: {query.question}
 Answer:"""
 
         # [4] Query Ollama
+        print("[3] Querying LLM via Ollama...")
         response = requests.post(OLLAMA_URL, json={
             "model": OLLAMA_MODEL,
             "prompt": prompt,

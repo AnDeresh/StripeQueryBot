@@ -4,8 +4,12 @@ import asyncio
 from playwright.async_api import async_playwright
 from tqdm.asyncio import tqdm
 
-INPUT_PATH = "data/stripe_urls.json"
-OUTPUT_PATH = "data/stripe_docs.json"
+# Визначаємо базову директорію проєкту (знаходимо її як директорію рівня вище, ніж директорія скриптів)
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+# Оновлені шляхи для файлів даних
+INPUT_PATH = os.path.join(BASE_DIR, "data", "stripe_urls.json")
+OUTPUT_PATH = os.path.join(BASE_DIR, "data", "stripe_docs.json")
 BASE_URL = "https://docs.stripe.com"
 
 SELECTORS = [
@@ -36,10 +40,12 @@ async def scrape_page(page, url_path):
 
 
 async def main():
-    with open(INPUT_PATH, "r") as f:
+    # Відкриваємо файл, використовуючи оновлений абсолютний шлях
+    with open(INPUT_PATH, "r", encoding="utf-8") as f:
         urls = json.load(f)
 
-    os.makedirs("data", exist_ok=True)
+    # Створюємо директорію data (якщо не існує) за новим шляхом
+    os.makedirs(os.path.join(BASE_DIR, "data"), exist_ok=True)
 
     results = []
     async with async_playwright() as p:
@@ -55,6 +61,7 @@ async def main():
 
         await browser.close()
 
+    # Зберігаємо результати у файл з урахуванням нового шляху
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
 

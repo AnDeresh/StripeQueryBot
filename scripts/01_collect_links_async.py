@@ -4,19 +4,22 @@ import asyncio
 from playwright.async_api import async_playwright
 
 BASE_URL = "https://docs.stripe.com/api"
-OUTPUT_DIR = "data"
+
+# Отримуємо базовий каталог проєкту (виходячи з того, що цей скрипт знаходиться в папці "scripts/")
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+OUTPUT_DIR = os.path.join(BASE_DIR, "data")
 OUTPUT_PATH = os.path.join(OUTPUT_DIR, "stripe_urls.json")
 
 
 async def get_links_with_eval():
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=False)  # See it open
+        browser = await p.chromium.launch(headless=False)  # Відкриває браузер для візуалізації
         page = await browser.new_page()
 
         await page.goto(BASE_URL, wait_until="domcontentloaded")
         await page.wait_for_timeout(5000)
 
-        # JS to extract links from the sidebar menu
+        # JavaScript для витягування посилань із бокового меню
         hrefs = await page.evaluate("""
             () => {
                 const anchors = Array.from(document.querySelectorAll("a"));
@@ -47,4 +50,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-
+    

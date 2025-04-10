@@ -5,15 +5,20 @@ from tqdm import tqdm
 from sentence_transformers import SentenceTransformer
 import faiss
 
+# Розмір фрагменту та перехресна накладка
 CHUNK_SIZE = 250
 CHUNK_OVERLAP = 30
 
-INPUT_FILE = "data/stripe_docs.json"
-INDEX_DIR = "vectorstore"
+# Визначаємо базову директорію проєкту (корінь щодо папки scripts/)
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+# Оновлені шляхи до файлів згідно нової структури
+INPUT_FILE = os.path.join(BASE_DIR, "data", "stripe_docs.json")
+INDEX_DIR = os.path.join(BASE_DIR, "vectorstore")
 INDEX_FILE = os.path.join(INDEX_DIR, "index.faiss")
 META_FILE = os.path.join(INDEX_DIR, "docs.pkl")
 
-EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"  # small and fast
+EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"  # невелика та швидка модель
 
 
 def chunk_text(text, chunk_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
@@ -54,6 +59,7 @@ def build_faiss_index(embeddings, dimension):
 
 
 def main():
+    # Створити директорію для індексу, якщо її ще немає
     os.makedirs(INDEX_DIR, exist_ok=True)
 
     print("[1] Loading documents and chunking...")
