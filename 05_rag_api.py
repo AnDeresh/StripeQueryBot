@@ -3,6 +3,7 @@ from pydantic import BaseModel
 import faiss
 import pickle
 import requests
+import os
 from sentence_transformers import SentenceTransformer
 
 # === CONFIG ===
@@ -10,7 +11,7 @@ INDEX_PATH = "vectorstore/index.faiss"
 DOCS_PATH = "vectorstore/docs.pkl"
 EMBED_MODEL_NAME = "all-MiniLM-L6-v2"
 TOP_K = 5
-OLLAMA_URL = "http://localhost:11434/api/generate"
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate")
 OLLAMA_MODEL = "llama3"
 
 # === LOAD COMPONENTS ===

@@ -5,23 +5,23 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.llama
-    container_name: llama_local_server
     networks:
       - stripe_network
+    ports:
+      - "11434:11434"
 
   api:
     build:
       context: .
       dockerfile: Dockerfile.app
-    container_name: llm_stripe_rag
     ports:
       - "8000:8000"
     volumes:
       - ./vectorstore:/app/vectorstore
     networks:
       - stripe_network
-    depends_on:
-      - llama
+    environment:
+      - OLLAMA_URL=http://llama:11434/api/generate
 
 networks:
   stripe_network:

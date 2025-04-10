@@ -19,6 +19,7 @@ StripeQueryBot/
 ├── 04_rag_qa.py                     # Step 4. Gradio-based Q&A interface using local embeddings
 ├── 05_rag_api.py                    # Step 5. FastAPI-based endpoint providing a Q&A API
 │
+├── docker-compose.yml               # Docker Compose config for running API and LLaMA servers
 ├── Dockerfile.app                   # Dockerfile for containerizing the main application (FastAPI/Streamlit app)
 ├── Dockerfile.llama                 # Dockerfile for containerizing the LLaMA server
 ├── README.md                        # Main project documentation, setup and usage instructions
@@ -57,29 +58,10 @@ uvicorn 05_rag_api:app --reload
 
 If you want to containerize the application along with the LLaMA server, follow these steps:
 
-1. **Create a Docker network:**
+1. **Run a Docker**
    ```bash
-   docker network create stripe_network
+   docker compose up
    ```
-
-2. **Build and run the FastAPI container:**
-   ```bash
-   docker build -f Dockerfile.app -t llm_stripe_rag .
-   docker run \
-   --network stripe_network \
-   -v $(pwd)/vectorstore:/app/vectorstore \
-   -p 8000:8000 \
-   llm_stripe_rag
-   ```
-This will run the FastAPI application on port 8000.
-
-2. **Build and run the LLaMA container:** 
-   ```bash
-   docker build -f Dockerfile.llama -t llama_local_server .
-   docker run --network stripe_network llama_local_server
-   ```
-This will run the LLaMA server on port 11434.
----
 
 ## **How It Works**
 
