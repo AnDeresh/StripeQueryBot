@@ -8,6 +8,13 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     build-essential \
     libatlas-base-dev \
+    libffi-dev \
+    libssl-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    zlib1g-dev \
+    git \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy all files from the current directory to the container

@@ -63,15 +63,15 @@ If you want to containerize the application along with the LLaMA server, follow 
 
 2. **Build and run the FastAPI container:**
    ```bash
-   docker build -t llm_stripe_rag .
+   docker build -f Dockerfile.app -t llm_stripe_rag .
    docker run --network stripe_network -p 8000:8000 llm_stripe_rag
    ```
 This will run the FastAPI application on port 8000.
 
 2. **Build and run the LLaMA container:** 
    ```bash
-   docker build -f Dockerfile.llama -t llama3_image .
-   docker run --network stripe_network -p 11434:11434 llama3_image
+   docker build -f Dockerfile.llama -t llama_local_server .
+   docker run --network stripe_network llama_local_server
    ```
 This will run the LLaMA server on port 11434.
 ---
