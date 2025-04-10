@@ -81,11 +81,13 @@ If you want to containerize the application using Docker, you can follow these s
 To make a payment through Stripe, you can use the `charges.create` endpoint. Example:
 
 ```bash
-curl https://api.stripe.com/v1/charges -u "sk_test_7mJuPfZ...JkrANrFrcDqC" -d "amount=1000&currency=usd&customer=cus_12345678"
+curl https://api.stripe.com/v1/charges \
+  -u "sk_test_7mJuPfZ...JkrANrFrcDqC" \
+  -d "amount=1000&currency=usd&customer=cus_12345678"
 ```
 
 ### Example 2:
 **Question:** What is a customer in Stripe?
 
 **Answer:**
-A customer in Stripe represents an entity (user or organization) that you can charge, store payment methods for, and track billing history. You create a customer object via the Customers API and can attach payment sources, email, metadata, etc.
+A customer in Stripe represents an entity (user or organization) that you can charge, store payment methods for, and track billing history. You create a customer object via the `Customers API` and can attach payment sources, email, metadata, etc.
