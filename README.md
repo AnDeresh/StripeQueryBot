@@ -2,6 +2,31 @@
 
 This project implements a Retrieval-Augmented Generation (RAG) system to answer questions based on the Stripe API documentation. It uses the LLaMA model locally via Ollama for question answering, and a FAISS index for efficient document retrieval.
 
+## Project Structure
+
+```plaintext
+StripeQueryBot/
+├── data/
+│   ├── stripe_docs.json             # JSON file containing scraped documentation text
+│   └── stripe_urls.json             # JSON file listing URLs collected from Stripe docs
+├── model/                           # Directory (optional) for storing any local/custom models
+├── scripts/
+│   ├── 01_collect_links_async.py    # Step 1. Asynchronously collect URLs from the Stripe docs homepage
+│   ├── 02_scrape_stripe_pages.py    # Step 2. Scrape each URL to retrieve full documentation text
+│   ├── 03_chunk_and_embed.py        # Step 3. Split text into chunks and embed them for FAISS indexing
+│   ├── 04_rag_qa.py                 # Step 4. Gradio-based Q&A interface using local embeddings
+│   └── 05_rag_api.py                # Step 5. FastAPI-based endpoint providing a Q&A API
+├── tests/
+│   └── test_index.py                # Script for testing the FAISS index and verifying loaded data
+├── vectorstore/
+│   ├── docs.pkl                     # Pickled dictionary of chunked texts and metadata
+│   └── index.faiss                  # FAISS index storing vector embeddings for fast retrieval
+├── .gitattributes                   # Git-specific attributes (e.g., Git LFS tracking)
+├── Dockerfile                       # Instructions for containerizing the app with Docker
+├── README.md                        # Main project documentation, setup and usage instructions
+└── requirements.txt                 # Python dependencies required by the project
+```
+
 ## **How to Run**
 
 ### 1. **Prerequisites**
