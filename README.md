@@ -21,7 +21,6 @@ StripeQueryBot/
 │
 ├── docker-compose.yml               # Docker Compose config for running API and LLaMA servers
 ├── Dockerfile.app                   # Dockerfile for containerizing the main application (FastAPI/Streamlit app)
-├── Dockerfile.llama                 # Dockerfile for containerizing the LLaMA server
 ├── README.md                        # Main project documentation, setup and usage instructions
 ├── requirements.txt                 # Python dependencies required by the project
 └── test_index.py                    # Script for testing the FAISS index and verifying loaded data
