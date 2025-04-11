@@ -53,16 +53,55 @@ To deploy the Q&A system as an API with FastAPI:
 uvicorn 05_rag_api:app --reload
 ```
 
-### 5. Docker (Optional)
+## 🐳 Docker (Optional)
 
 If you want to containerize the application along with the LLaMA server, follow these steps:
+
+---
+
+### 1. Build & Run the Project
+
+If you want to containerize the application along with the LLaMA server, follow these steps:
+
+In **Terminal / CMD / PowerShell**, run:
 
 1. **Run a Docker**
    ```bash
    docker compose up
+   ```
+  
+This will:
+- build both containers (if not already built),
+- launch the FastAPI app and the LLaMA server,
+- stream logs to the terminal (this terminal will remain occupied).
+
+> Don't close this terminal! It keeps your containers running.
+
+2. **Load the LLaMA Model**
+   ```bash
    docker exec -it ollama ollama pull llama3
    ```
 
+This downloads the LLaMA 3 model into the llama container.
+
+> You only need to run this once. The model stays cached in the container.
+
+3. **Access the API**
+Once both containers are running and the model is loaded, you can open:
+   ```bash
+   http://localhost:8000/docs
+   ```
+
+**Need to restart?**
+You can always stop the app with `Ctrl+C in` the first terminal, then bring it back up with:
+   ```bash
+   docker compose up
+   ```
+If you want a clean reset (remove containers, volumes, networks):
+   ```bash
+   docker compose down
+   ```
+   
 ## **How It Works**
 
 1. **Documentation Load** — Fetches Stripe API documentation and splits it into text chunks.

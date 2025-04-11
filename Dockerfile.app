@@ -17,14 +17,17 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy all files from the current directory to the container
+# Copy only the requirements file first to leverage Docker cache
+COPY requirements.txt /app/requirements.txt
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Copy the rest of the application code
 COPY . /app
 
-# Install dependencies from requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Expose port 8000, used by FastAPI
+# Expose port 8000 for FastAPI
 EXPOSE 8000
 
-# Run the FastAPI app using uvicorn
+# Start the FastAPI app with Uvicorn
 CMD ["uvicorn", "05_rag_api:app", "--host", "0.0.0.0", "--port", "8000"]
