@@ -1,6 +1,7 @@
 import faiss
 import pickle
 import requests
+import os
 
 from sentence_transformers import SentenceTransformer
 
@@ -9,7 +10,7 @@ INDEX_PATH = "vectorstore/index.faiss"
 DOCS_PATH = "vectorstore/docs.pkl"
 EMBED_MODEL_NAME = "all-MiniLM-L6-v2"
 TOP_K = 5
-OLLAMA_URL = "http://localhost:11434/api/generate"
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate")
 MODEL_NAME = "llama3"
 
 # === LOAD VECTOR INDEX ===
