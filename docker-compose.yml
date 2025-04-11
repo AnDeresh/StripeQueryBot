@@ -1,14 +1,21 @@
 version: "3.8"
 
 services:
-  llama:
-    build:
-      context: .
-      dockerfile: Dockerfile.llama
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    pull_policy: always
+    tty: true
+    restart: always
     networks:
       - stripe_network
     ports:
       - "11434:11434"
+    volumes:
+      - ./ollama/ollama:/root/.ollama
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+      - OLLAMA_HOST=0.0.0.0
 
   api:
     build:
@@ -21,8 +28,10 @@ services:
     networks:
       - stripe_network
     environment:
-      - OLLAMA_URL=http://llama:11434/api/generate
+      - OLLAMA_URL=http://host.docker.internal:11434/api/generate
+    depends_on:
+      - ollama
 
 networks:
   stripe_network:
-    driver: bridge
+    external: false

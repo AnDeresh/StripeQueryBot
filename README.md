@@ -61,6 +61,7 @@ If you want to containerize the application along with the LLaMA server, follow 
 1. **Run a Docker**
    ```bash
    docker compose up
+   docker exec -it ollama ollama pull llama3
    ```
 
 ## **How It Works**
